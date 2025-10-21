@@ -1,0 +1,20 @@
+class Solution {
+    public int findTheWinner(int n, int k) {
+        List<Integer> list = new ArrayList<>();
+        for(int i=1; i <= n; i++){
+            list.add(i);
+        }
+        return findTheWinnerHelper(list, k-1, 0);
+    }
+    private int findTheWinnerHelper(List<Integer> list, int k, int i){
+        int n = list.size();
+        if(n == 1)
+           return list.get(0);
+        i = (i+k)%n;
+        list.remove(i);
+        return findTheWinnerHelper(list, k, i);    
+    }
+}
+
+time complexity : O(n2) (n -> recusrtion and n for list.remove() in worst case)
+Space Complexity : O(n)
