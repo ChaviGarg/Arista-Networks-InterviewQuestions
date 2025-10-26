@@ -1,0 +1,34 @@
+class Solution {
+    public String longestWord(String[] words) {
+        String ans="";
+        Set<String> set = new HashSet<>();
+        boolean good = true;
+        for(String word : words){
+            set.add(word);
+        }
+        for(String word : words){
+            good = true;
+            int w = word.length();
+            int a = ans.length();
+            if(w > a || (w == a && word.compareTo(ans) < 0)){
+                for(int k=1; k < word.length(); k++){
+                    if(! set.contains(word.substring(0,k))){
+                        good = false;
+                        break;
+                    }
+                }
+                if(good){
+                    ans = word;
+                }
+            }
+        }
+        return ans;
+    }
+}
+
+// time : O(words.length)(word.length)(word.length) -> word.substring will create new string which will also take O(word.length
+O(nL2)
+
+// Space : O(nL)
+set O(n*L) L -> each char + O(L) for word.substring(0,k)
+so O(nL) + O(L) -> O(nL)
