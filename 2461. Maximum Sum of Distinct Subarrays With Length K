@@ -1,0 +1,35 @@
+class Solution {
+    public long maximumSubarraySum(int[] nums, int k) {
+        int i=0, j=0;
+        long sum = 0, maxSum = 0;
+        Map<Integer,Integer> freq = new HashMap<>();
+        
+        while(j < nums.length){
+            sum += nums[j];
+            freq.put(nums[j], freq.getOrDefault(nums[j], 0)+1);
+            if(j-i+1 < k){
+                j++;
+            }else if(j-i+1 == k){
+                if(j-i+1 == freq.size())
+                    maxSum = Math.max(maxSum, sum);
+                j++;
+            }else{
+                sum -= nums[i];
+                int val = freq.get(nums[i]);
+                freq.put(nums[i], val-1);
+                if(freq.get(nums[i]) == 0)
+                   freq.remove(nums[i]);
+                i++;
+                if(j-i+1 == freq.size())
+                    maxSum = Math.max(maxSum, sum);
+                j++;
+            }
+
+        }
+        return maxSum;
+    }
+}
+
+
+Time : O(n)
+Space : O(1)
