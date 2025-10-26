@@ -1,0 +1,45 @@
+Brute force : generate all possible substrings, checks for palindrome, get the max length substring. O(n3)
+
+Optimized DP Approach: Refer techdose https://www.youtube.com/watch?v=UflHuQj6MVA&t=778s
+
+class Solution {
+    public String longestPalindrome(String s) {
+        int n = s.length(), max = 0;
+        String result = "";
+        int dp[][] = new int[n][n];
+        for(int i=0; i < n; i++){
+            for(int j=0; j < n; j++){
+                if(i == j){
+                   dp[i][j] = 1;
+                   if(j-i+1 > max){
+                        max = j-i+1;
+                        result = s.substring(i, j+1);
+                   }
+                }
+                if(j == i+1 && s.charAt(j) == s.charAt(i)){
+                   dp[i][j] = 1;
+                   if(j-i+1 > max){
+                        max = j-i+1;
+                        result = s.substring(i, j+1);
+                   }
+                }
+                   
+            }
+        }
+        for(int i=n-3; i >= 0; i--){
+            for(int j=i+2; j < n; j++){
+               if(s.charAt(j) == s.charAt(i) && dp[i+1][j-1] == 1){
+                  dp[i][j] = 1;
+                  if(j-i+1 > max){
+                        max = j-i+1;
+                        result = s.substring(i, j+1);
+                   }
+               }
+            }
+        }
+        return result;
+    }
+}
+
+Time : O(n2)
+Space : O(n2)
