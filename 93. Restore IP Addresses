@@ -1,0 +1,32 @@
+class Solution {
+    public List<String> restoreIpAddresses(String s) {
+        List<String> result = new ArrayList<>();
+        restoreIpAddressesHelper(s, result, 0, new StringBuilder(), 0);
+        return result;
+    }
+    public void restoreIpAddressesHelper(String s, List<String> list, int i, StringBuilder ans, int segmentCount){
+        if(i == s.length() && segmentCount == 4){
+           list.add(ans.toString().substring(0, ans.length() - 1));
+        }
+
+        if(segmentCount >= 4)
+           return;
+
+        for(int k=i+1; k <= i+3 && k <= s.length(); k++){
+            String subStr = s.substring(i, k);
+            if(subStr.length() > 1 && subStr.startsWith("0"))
+                continue;
+            int ip = Integer.parseInt(subStr);
+            if(ip >= 0 && ip <= 255){
+                int lenBefore = ans.length();
+                ans.append(subStr).append(".");
+                restoreIpAddressesHelper(s, list, k, ans, segmentCount+1);
+                ans.setLength(lenBefore); // backtrack
+            }
+        }
+    }
+}
+
+
+Time : O(3^n)
+Space : O(n) + O(n) (recursion stack + string builder)
